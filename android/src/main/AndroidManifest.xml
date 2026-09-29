@@ -1,2 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".ActionReceiver"
+            android:exported="false" />
+        <activity
+            android:name=".FullScreenActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:theme="@style/Theme.Capgo.RichNotifications.Translucent"
+            android:turnScreenOn="true" />
+    </application>
 </manifest>

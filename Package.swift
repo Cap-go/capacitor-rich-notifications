@@ -19,7 +19,10 @@ let package = Package(
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm")
             ],
-            path: "ios/Sources/RichNotificationsPlugin"),
+            path: "ios/Sources/RichNotificationsPlugin",
+            linkerSettings: [
+                .linkedFramework("UserNotifications")
+            ]),
         .testTarget(
             name: "RichNotificationsPluginTests",
             dependencies: ["RichNotificationsPlugin"],
