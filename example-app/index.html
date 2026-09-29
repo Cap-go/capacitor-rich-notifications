@@ -2,31 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-
-
     <meta
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-<title>@capgo/capacitor-rich-notifications</title>
+    <title>@capgo/capacitor-rich-notifications</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <main class="container">
       <h1>@capgo/capacitor-rich-notifications</h1>
-      <p class="lead">Quickly validate the template plugin wiring.</p>
-
-      <label for="echo-value">Echo value</label>
-      <input id="echo-value" type="text" value="Hello from example app" />
+      <p class="lead">Local rich notifications demo (no remote push).</p>
 
       <div class="actions">
-        <button id="run-echo">Run echo</button>
-        <button id="get-version">Get plugin version</button>
+        <button id="check-permission">Check permission</button>
+        <button id="request-permission">Request permission</button>
+        <button id="create-channel">Create channel</button>
+        <button id="simple">Simple notification</button>
+        <button id="progress">Progress</button>
+        <button id="bigtext">Big text</button>
+        <button id="reply">Action + reply</button>
+        <button id="schedule">Schedule 5s</button>
+        <button id="badge">Set badge 3</button>
+        <button id="cancel-all">Cancel all</button>
       </div>
 
       <pre id="plugin-output">Press a button to run an action.</pre>
+      <pre id="event-log">Event log…</pre>
     </main>
     <script type="module" src="/src/main.js"></script>
   </body>
