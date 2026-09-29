@@ -243,7 +243,7 @@ console.log('shown', id);
 ## Integration Notes
 
 - **iOS:** Uses `UNUserNotificationCenter` categories, time-sensitive interruption levels, badges, and scheduled triggers. No extra usage string beyond the system permission prompt.
-- **Android:** Uses `NotificationCompat`. The library does **not** force `POST_NOTIFICATIONS`, `SCHEDULE_EXACT_ALARM`, `USE_FULL_SCREEN_INTENT`, or `FOREGROUND_SERVICE` on every app. Those are opt-in — run `bun run scripts/apply-notification-permissions.mjs --project <your-app>` to add them plus the foreground service declaration when you need exact alarms, full-screen intents, or foreground-service notifications.
+- **Android:** Uses `NotificationCompat`. The library declares `POST_NOTIFICATIONS` because it posts notifications. `SCHEDULE_EXACT_ALARM`, `USE_FULL_SCREEN_INTENT`, and `FOREGROUND_SERVICE` stay opt-in. Run `bun run scripts/apply-notification-permissions.mjs --project <your-app>` to add those plus the foreground service declaration.
 - **Web:** Falls back to the browser Notification API. `schedule` uses `setTimeout` and only fires while the page stays open. Channels/groups are no-ops; `foregroundService` / `fullScreen` reject as Android-only.
 
 ## Example App

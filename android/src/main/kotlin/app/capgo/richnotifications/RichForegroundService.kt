@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.core.app.NotificationManagerCompat
 
 /**
  * Opt-in foreground service. The host app must declare this service and related permissions.
@@ -24,9 +23,7 @@ class RichForegroundService : Service() {
             stopSelf()
             return START_NOT_STICKY
         }
-        val notificationId = RichNotifications.idToInt(id)
-        startForeground(notificationId, notification)
-        NotificationManagerCompat.from(this).notify(notificationId, notification)
+        startForeground(RichNotifications.idToInt(id), notification)
         return START_STICKY
     }
 }

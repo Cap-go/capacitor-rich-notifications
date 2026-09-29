@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required because this library posts notifications. Exact alarms, full-screen
+         intents, and the foreground service stay opt-in in the host app. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application>
         <receiver
             android:name=".AlarmReceiver"
