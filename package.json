@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-rich-notifications",
-  "version": "8.0.1",
+  "version": "8.1.0",
   "description": "Capacitor plugin for local rich notifications.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
