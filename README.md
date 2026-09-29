@@ -7,6 +7,10 @@
   <h2><a href="https://capgo.app/consulting/?ref=plugin_rich_notifications"> Missing a feature? We’ll build the plugin for you 💪</a></h2>
 </div>
 
+<p align="center">
+  <img src="./screenshots/android-demo.webp" alt="Android notification shade showing a download progress notification from the example app" width="280" />
+</p>
+
 ## Snapshot
 
 - **Plugin name:** `Rich Notifications`
@@ -249,6 +253,10 @@ console.log('shown', id);
 ## Example App
 
 The `example-app/` folder is linked via `file:..` and is intended for validating native wiring during development.
+
+<p align="center">
+  <img src="./screenshots/android-demo.webp" alt="Android notification shade showing a download progress notification from the example app" width="280" />
+</p>
 
 ## API
 
