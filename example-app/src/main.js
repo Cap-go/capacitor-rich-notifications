@@ -162,7 +162,9 @@ document.getElementById('cancel-last').addEventListener(
     }
     const cancelled = lastNotificationId;
     await RichNotifications.cancel({ id: cancelled });
-    lastNotificationId = null;
+    if (lastNotificationId === cancelled) {
+      lastNotificationId = null;
+    }
     return { cancelled };
   }),
 );
