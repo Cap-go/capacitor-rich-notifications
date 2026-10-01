@@ -11,53 +11,29 @@
   <img src="./screenshots/android-demo.webp" alt="Android notification shade showing a download progress notification from the example app" width="280" />
 </p>
 
-## Snapshot
+Show polished **local** notifications from your Capacitor app: Android channels and groups, progress and ongoing alerts, big-text/picture/inbox layouts, action buttons with inline reply, exact scheduling, full-screen intents, and optional foreground-service promotion. It does not register for remote push (use [@capgo/capacitor-notifications](https://github.com/Cap-go/capacitor-notifications) for FCM/APNs). Compared with the stock local notification APIs, you get one TypeScript surface for rich layouts, scheduling, tap/dismiss events, launch detection, and badges on iOS and Android (with a browser Notification fallback on web).
 
-- **Plugin name:** `Rich Notifications`
-- **One-line value:** `Local notifications with channels, actions, progress, and schedules.`
-- **Maintainer:** `Capgo`
-- **Status:** `beta`
+## Features
 
-## Pre-Release Checklist
+- **Permissions** - `checkPermission` / `requestPermission` for notification access (including Android 13+ `POST_NOTIFICATIONS`).
+- **Android channels** - Create channel groups, channels with importance/vibration/sound, and delete channels.
+- **Rich layouts** - Big text, picture, and inbox styles; large images from HTTPS or data URLs.
+- **Progress and ongoing** - Download-style progress bars and notifications that stay until you cancel them.
+- **Actions** - Register reusable categories or attach per-notification buttons, including inline text reply.
+- **Scheduling** - Fire once at a Unix timestamp or on a repeating interval (exact alarms on Android when permitted).
+- **Full-screen and FGS** - Optional full-screen intent for calls/alarms and foreground-service notifications (Android, opt-in permissions).
+- **Lifecycle events** - `press` and `dismiss` listeners, plus `getInitialNotification` when the app opens from a tap.
+- **Badge** - Set the app icon badge count on iOS.
+- **iOS polish** - `UNUserNotificationCenter` categories, interruption levels (`passive` through `timeSensitive`), and scheduled triggers.
 
-- [x] Placeholder values in this README are filled in.
-- [x] Capgo CTA links use this plugin's ref slug.
-- [x] README banner points at this repository.
-- [x] `package.json` keywords are filled in.
-- [x] Git remote points at this repository.
-- [x] Bootstrap init script and templates are removed.
-- [x] Compatibility table starts at Capacitor 8.
-- [x] Update `src/definitions.ts` with the real public API and JSDoc.
-- [x] Run `bun run docgen` and review generated API docs below.
-- [x] Confirm examples in this file run against the real implementation.
-- [ ] Set GitHub repo description to start with `Capacitor plugin for ...`.
-- [x] GitHub homepage is `https://capgo.app/docs/plugins/rich-notifications/`.
-- [ ] Create a GitHub repository custom social preview from `assets/github-social-template.svg`, export it to `assets/github-social-preview.png`, and upload it at GitHub **Settings** -> **General** -> **Social preview**.
-- [ ] Open docs/website PR and follow the complete website integration checklist in section **3) Open docs/website pull request**.
-- [x] Run `bun run verify` before publishing (iOS, Android, and web verified in CI on this branch).
+## Use cases
 
-## Problem & Scope
-
-### Why this plugin exists
-
-`The stock local notification plugin cannot express channels, progress, inline replies, full-screen alerts, or foreground-service notifications.`
-
-## Capgo Links
-
-- **Plugin docs URL:** `https://capgo.app/docs/plugins/rich-notifications/`
-- **Plugin tutorial URL:** `https://capgo.app/docs/plugins/rich-notifications/`
-- **Website/docs repo:** `https://github.com/Cap-go/website`
-
-### What it does
-
-- `Creates Android channels and groups, progress notifications, ongoing notifications, and full-screen alerts.`
-- `Shows big-text, picture, and inbox layouts, images, and action buttons that can include an inline text reply.`
-- `Schedules exact alarms, reports taps and dismissals in the foreground and background, and tells you which notification opened the app.`
-
-### What it does not do
-
-- `Does not register for remote push or talk to APNs or FCM. Use @capgo/capacitor-notifications for that.`
-- `Does not send notifications to other users. It only shows local notifications on this device.`
+- File upload/download progress in the notification shade.
+- Chat-style messages with a Reply action and inline text input.
+- Reminders and snoozed tasks scheduled for a specific time or interval.
+- Incoming call or alarm UI via full-screen intent on Android.
+- Long-running tasks that must stay visible with a foreground service notification.
+- Deep linking: read which notification (and action) launched the app.
 
 ## Compatibility
 
@@ -72,191 +48,111 @@ Policy:
 - New plugins start at version `8.0.0` (Capacitor 8 baseline).
 - Backward compatibility for older Capacitor majors is supported on demand.
 
-## Development
-
-```bash
-bun install
-bun run verify
-```
-
-
-## Capgo Example App Deploy Setup
-
-The `Deploy example app to Capgo` GitHub Actions workflow publishes the built `example-app/` web bundle to Capgo when a GitHub release is published or the workflow is manually dispatched. It checks out the release tag, builds the plugin and example app with Bun, and uploads the bundle with one direct Capgo CLI command.
-
-Required setup for every plugin created from this template:
-
-1. Create a Capgo app for the example app id from `example-app/capacitor.config.ts`.
-   The default id is `app.capgo.richnotifications.example`; after `bun run init-plugin ...`, verify both `appId` values in that file match the new plugin package id plus `.example`.
-2. Keep the Capgo channel named `production`, or edit `.github/workflows/deploy_example_app.yml` if the example app should publish to a different default channel.
-
-`CAPGO_TOKEN` is already configured as a Capgo organization GitHub Actions secret and is read by the workflow through `${{ secrets.CAPGO_TOKEN }}`. Do not create a duplicate repository secret for new plugin repositories.
-
-## Capacitor Hook Scripts (Recommended)
-
-For plugins that need automated setup during `cap sync` / `cap update`, define Capacitor lifecycle hooks in `package.json`.
-
-Example:
-
-```json
-{
-  "scripts": {
-    "generate:version-share": "bun run scripts/generate-version-share-data.mjs",
-    "configure:dependencies": "bun run scripts/configure-dependencies.mjs",
-    "capacitor:sync:before": "bun run generate:version-share",
-    "capacitor:update:before": "bun run generate:version-share",
-    "capacitor:sync:after": "bun run configure:dependencies"
-  }
-}
-```
-
-Guideline:
-- Use `*:before` for generated inputs needed by native sync/update.
-- Use `*:after` for native patching that depends on files created by sync/update.
-- Keep hook scripts idempotent.
-
-## Public Launch (Required)
-
-### 1) Publish in Capgo GitHub org as public
-
-```bash
-gh repo create Cap-go/capacitor-rich-notifications --public --source=. --remote=origin --push
-```
-
-If the repo already exists and is private:
-
-```bash
-gh repo edit Cap-go/capacitor-rich-notifications --visibility public --accept-visibility-change-consequences
-```
-
-### 2) Set GitHub description, homepage, and custom social preview
-
-Description must always start with: `Capacitor plugin for ...`
-
-```bash
-gh repo edit Cap-go/capacitor-rich-notifications \
-  --description "Capacitor plugin for showing local rich notifications." \
-  --homepage "https://capgo.app/docs/plugins/rich-notifications/"
-```
-
-Create the GitHub repository custom social preview before launch. GitHub uses this image for repository cards, link unfurls, and social shares; it is separate from the README banner and website docs images.
-
-1. Open `assets/github-social-template.svg`.
-2. Replace the sample headline, accent line, description, and badges with plugin-specific copy.
-3. Keep the terminal command as `npm i @capgo/capacitor-rich-notifications` because social and docs copy should use public npm install syntax.
-4. Export the SVG as a 1280 x 640 PNG at `assets/github-social-preview.png`.
-5. Have the agent try to upload the PNG in GitHub under repository **Settings** -> **General** -> **Social preview** -> **Edit**.
-6. Prefer a supported GitHub API if one exists. GitHub currently does not expose a supported public REST/GraphQL endpoint for this upload, so the practical automation path is an authenticated browser session with repository admin access.
-7. If the agent cannot access an authenticated GitHub web session with admin rights, keep `assets/github-social-preview.png` in the repo and report that only the GitHub UI upload is blocked.
-8. Do not treat the repository as launch-ready until this custom GitHub social preview is uploaded.
-9. Copy targets: headline 4-9 words, accent line 2-6 words, description 60-110 characters, badges 1-3 words each. These are guardrails, not hard failures; the SVG clips longer text inside safe regions, so only shorten copy when the rendered image is hard to read or visibly clipped.
-
-### 3) Open docs/website pull request
-
-Create a PR on `https://github.com/Cap-go/website` (or the local `landing/` folder in the monorepo) with all of the following:
-
-1. Add the plugin entry in `src/config/plugins.ts`.
-2. Add a plugin `LinkCard` in `src/content/docs/docs/plugins/index.mdx`.
-3. Create docs pages in `src/content/docs/docs/plugins/<plugin-doc-slug>/`:
-   `index.mdx`, `getting-started.mdx`, and optionally `ios.mdx` + `android.mdx` when platform setup differs.
-4. Update `astro.config.mjs`:
-   add `docs/plugins/<plugin-doc-slug>/**` in pagefind path buckets and add a sidebar section for the plugin pages.
-5. Add the SEO tutorial page in `src/content/plugins-tutorials/en/<plugin-repo-slug>.md`.
-6. Add icon asset `public/icons/plugins/<plugin-doc-slug>.svg` if the docs hero uses a plugin icon.
-7. Cross-link docs and tutorial pages.
-
-Slug mapping rules:
-
-- `<plugin-doc-slug>` is the docs route slug used under `/docs/plugins/<plugin-doc-slug>/`.
-- `<plugin-repo-slug>` is extracted from the GitHub repo URL in `src/config/plugins.ts` and is used by `/plugins/<slug>/`.
-- Example: repo `https://github.com/Cap-go/capacitor-app-attest/` requires tutorial file
-  `src/content/plugins-tutorials/en/capacitor-app-attest.md`.
-
-Starter snippets:
-
-`src/config/plugins.ts`
-
-```ts
-{
-  name: '@capgo/capacitor-rich-notifications',
-  author: 'github.com/Cap-go',
-  description: 'Capacitor plugin for showing local rich notifications',
-  href: 'https://github.com/Cap-go/capacitor-rich-notifications/',
-  title: 'Rich Notifications',
-  icon: ShieldCheckIcon,
-},
-```
-
-`astro.config.mjs` sidebar entry
-
-```ts
-{
-  label: 'Rich Notifications',
-  items: [
-    { label: 'Overview', link: '/docs/plugins/<plugin-doc-slug>/' },
-    { label: 'Getting started', link: '/docs/plugins/<plugin-doc-slug>/getting-started' },
-    { label: 'iOS setup', link: '/docs/plugins/<plugin-doc-slug>/ios' },
-    { label: 'Android setup', link: '/docs/plugins/<plugin-doc-slug>/android' },
-  ],
-  collapsed: true,
-},
-```
-
-Required docs files:
-
-- `src/content/docs/docs/plugins/<plugin-doc-slug>/index.mdx`
-- `src/content/docs/docs/plugins/<plugin-doc-slug>/getting-started.mdx`
-- `src/content/docs/docs/plugins/<plugin-doc-slug>/ios.mdx` (if iOS-specific setup exists)
-- `src/content/docs/docs/plugins/<plugin-doc-slug>/android.mdx` (if Android-specific setup exists)
-- `src/content/plugins-tutorials/en/<plugin-repo-slug>.md`
-
 ## Install
-
-You can use our AI-Assisted Setup to install the plugin. Add the Capgo skills to your AI tool using the following command:
-
-```bash
-npx skills add https://github.com/cap-go/capacitor-skills --skill capacitor-plugins
-```
-
-Then use the following prompt:
-
-```text
-Use the `capacitor-plugins` skill from `cap-go/capacitor-skills` to install the `@capgo/capacitor-rich-notifications` plugin in my project.
-```
-
-If you prefer Manual Setup, install the plugin by running the following commands and follow the platform-specific instructions below:
 
 ```bash
 npm install @capgo/capacitor-rich-notifications
 npx cap sync
 ```
 
-## Minimal Usage
+With Bun:
+
+```bash
+bun add @capgo/capacitor-rich-notifications
+bunx cap sync
+```
+
+## iOS setup
+
+No custom `Info.plist` keys are required for standard local notifications. Call `RichNotifications.requestPermission()` before showing notifications. Register action categories with `registerActions` and reference `categoryId` on each notification. Use `interruptionLevel` for time-sensitive delivery on iOS 15+. The `critical` level requires Apple's [Critical Alerts](https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel/critical) entitlement; without it, use `timeSensitive` or `active`.
+
+## Android setup
+
+The plugin library merges `POST_NOTIFICATIONS` into your app (required to post on Android 13+). Request runtime permission with `requestPermission()`. **Minimum SDK:** 24 (see the plugin `android/build.gradle`).
+
+For **exact alarms**, **full-screen intents**, and **foreground service** notifications, add opt-in permissions and the foreground service to your app manifest. From your project root:
+
+```bash
+bun run scripts/apply-notification-permissions.mjs --project path/to/your-app
+```
+
+That helper adds `SCHEDULE_EXACT_ALARM`, `USE_FULL_SCREEN_INTENT`, `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE`, and declares `app.capgo.richnotifications.RichForegroundService` with `foregroundServiceType="specialUse"`. Create notification channels before posting (`createChannel`). Use `foregroundService: true` and `fullScreen: true` only when those permissions are present.
+
+On **web**, the plugin uses the browser Notification API; `schedule` uses `setTimeout` and only runs while the page stays open. Channels, groups, `fullScreen`, and `foregroundService` are Android-only (no-ops or errors as documented in the API).
+
+## Usage
+
+Request permission, create a channel on Android, show a notification, and listen for taps:
 
 ```typescript
 import { RichNotifications } from '@capgo/capacitor-rich-notifications';
 
 await RichNotifications.requestPermission();
-const { id } = await RichNotifications.display({
-  title: 'Hello Capgo',
-  body: 'Local rich notification',
+
+await RichNotifications.createChannel({
+  id: 'messages',
+  name: 'Messages',
+  importance: 'high',
 });
-console.log('shown', id);
+
+const { id } = await RichNotifications.display({
+  title: 'Hello',
+  body: 'Tap to open the app',
+  channelId: 'messages',
+});
+
+await RichNotifications.addListener('press', (event) => {
+  console.log('pressed', event.id, event.actionId, event.input);
+});
+
+const launch = await RichNotifications.getInitialNotification();
+if (launch.notification) {
+  console.log('opened from', launch.notification.id);
+}
 ```
 
-## Integration Notes
+**Progress notification (Android):**
 
-- **iOS:** Uses `UNUserNotificationCenter` categories, time-sensitive interruption levels, badges, and scheduled triggers. No extra usage string beyond the system permission prompt.
-- **Android:** Uses `NotificationCompat`. The library declares `POST_NOTIFICATIONS` because it posts notifications. `SCHEDULE_EXACT_ALARM`, `USE_FULL_SCREEN_INTENT`, and `FOREGROUND_SERVICE` stay opt-in. Run `bun run scripts/apply-notification-permissions.mjs --project <your-app>` to add those plus the foreground service declaration.
-- **Web:** Falls back to the browser Notification API. `schedule` uses `setTimeout` and only fires while the page stays open. Channels/groups are no-ops; `foregroundService` / `fullScreen` reject as Android-only.
+```typescript
+await RichNotifications.display({
+  title: 'Downloading',
+  body: '42%',
+  channelId: 'messages',
+  ongoing: true,
+  progress: { current: 42, max: 100 },
+});
+```
 
-## Example App
+**Schedule in 5 seconds:**
 
-The `example-app/` folder is linked via `file:..` and is intended for validating native wiring during development.
+```typescript
+await RichNotifications.schedule({
+  notification: {
+    title: 'Reminder',
+    body: 'Five seconds later',
+    channelId: 'messages',
+  },
+  trigger: { type: 'interval', interval: 5 },
+});
+```
 
-<p align="center">
-  <img src="./screenshots/android-demo.webp" alt="Android notification shade showing a download progress notification from the example app" width="280" />
-</p>
+**Inline reply action:**
+
+```typescript
+await RichNotifications.registerActions({
+  id: 'chat',
+  actions: [{ id: 'reply', title: 'Reply', input: { placeholder: 'Type a reply' } }],
+});
+
+await RichNotifications.display({
+  title: 'New message',
+  body: 'From Alex',
+  categoryId: 'chat',
+  channelId: 'messages',
+});
+```
+
+See `example-app/` for a runnable demo (`bun install` and `bun run start` in that folder).
 
 ## API
 

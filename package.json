@@ -1,7 +1,7 @@
 {
   "name": "@capgo/capacitor-rich-notifications",
   "version": "8.2.0",
-  "description": "Capacitor plugin for local rich notifications.",
+  "description": "Capacitor plugin for local rich notifications with channels, actions, progress, and schedules.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -32,7 +32,9 @@
     "channels",
     "alarms",
     "plugin",
-    "native"
+    "native",
+    "rich-notifications",
+    "android-channels"
   ],
   "scripts": {
     "verify": "bun run verify:ios && bun run verify:android && bun run verify:web",
