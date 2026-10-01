@@ -1,5 +1,5 @@
 <svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>Capgo GitHub social preview template</title>
+  <title>Capgo capacitor-rich-notifications social preview</title>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1280" y2="640" gradientUnits="userSpaceOnUse">
       <stop stop-color="#060A13" />
@@ -13,9 +13,6 @@
     <filter id="shadow" x="48" y="214" width="1184" height="274" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
       <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#02050B" flood-opacity="0.35" />
     </filter>
-    <clipPath id="metaClip">
-      <rect x="80" y="24" width="1040" height="30" />
-    </clipPath>
     <clipPath id="headlineClip">
       <rect x="80" y="78" width="1080" height="128" />
     </clipPath>
@@ -26,31 +23,18 @@
       <rect x="160" y="360" width="990" height="72" />
     </clipPath>
     <clipPath id="badgeOneClip">
-      <rect x="62" y="16" width="120" height="34" />
+      <rect x="62" y="16" width="150" height="34" />
     </clipPath>
     <clipPath id="badgeTwoClip">
       <rect x="62" y="16" width="150" height="34" />
     </clipPath>
     <clipPath id="badgeThreeClip">
-      <rect x="62" y="16" width="120" height="34" />
+      <rect x="62" y="16" width="140" height="34" />
     </clipPath>
   </defs>
 
   <rect width="1280" height="640" rx="10" fill="url(#background)" />
   <rect x="0.5" y="0.5" width="1279" height="639" rx="9.5" stroke="#263245" />
-
-  <text
-    x="80"
-    y="42"
-    clip-path="url(#metaClip)"
-    fill="#A9B3C5"
-    font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-    font-size="15"
-    font-weight="700"
-    letter-spacing="0"
-  >
-    GitHub social preview - Cap-go/capacitor-rich-notifications - edit copy, keep npm install text
-  </text>
 
   <g clip-path="url(#headlineClip)">
     <text
@@ -140,7 +124,7 @@
   </text>
 
   <g transform="translate(80 490)">
-    <rect width="172" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
+    <rect width="200" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
     <text x="33" y="38" fill="#20A7FF" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="760">+</text>
     <text
       x="62"
@@ -155,8 +139,8 @@
       Channels
     </text>
   </g>
-  <g transform="translate(270 490)">
-    <rect width="202" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
+  <g transform="translate(296 490)">
+    <rect width="200" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
     <text x="33" y="38" fill="#7FE2A9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="760">+</text>
     <text
       x="62"
@@ -171,8 +155,8 @@
       Progress
     </text>
   </g>
-  <g transform="translate(488 490)">
-    <rect width="172" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
+  <g transform="translate(512 490)">
+    <rect width="188" height="59" rx="11" fill="#1D222B" stroke="#333A46" />
     <text x="33" y="38" fill="#FFBD2E" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="760">+</text>
     <text
       x="62"
