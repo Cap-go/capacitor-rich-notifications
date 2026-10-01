@@ -11,6 +11,8 @@ const setOutput = (value) => {
   output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
 };
 
+let lastNotificationId = null;
+
 const appendEvent = (label, value) => {
   const line = `${new Date().toISOString()} ${label} ${JSON.stringify(value)}`;
   eventLog.textContent = `${line}\n${eventLog.textContent}`.trim();
@@ -56,40 +58,61 @@ document.getElementById('create-channel').addEventListener(
   ),
 );
 
-document.getElementById('simple').addEventListener(
+document.getElementById('create-channel-group').addEventListener(
   'click',
-  run('display', () =>
-    RichNotifications.display({
-      title: 'Hello Capgo',
-      body: 'Local rich notification',
-      channelId: 'demo',
+  run('createChannelGroup', () =>
+    RichNotifications.createChannelGroup({
+      id: 'demo-group',
+      name: 'Demo group',
     }),
   ),
 );
 
+document.getElementById('delete-channel').addEventListener(
+  'click',
+  run('deleteChannel', () => RichNotifications.deleteChannel({ id: 'demo' })),
+);
+
+document.getElementById('simple').addEventListener(
+  'click',
+  run('display', async () => {
+    const result = await RichNotifications.display({
+      title: 'Hello Capgo',
+      body: 'Local rich notification',
+      channelId: 'demo',
+    });
+    lastNotificationId = result.id;
+    return result;
+  }),
+);
+
 document.getElementById('progress').addEventListener(
   'click',
-  run('progress', () =>
-    RichNotifications.display({
+  run('progress', async () => {
+    const result = await RichNotifications.display({
       title: 'Downloading',
       body: '42%',
       channelId: 'demo',
       ongoing: true,
       progress: { current: 42, max: 100 },
-    }),
-  ),
+    });
+    lastNotificationId = result.id;
+    return result;
+  }),
 );
 
 document.getElementById('bigtext').addEventListener(
   'click',
-  run('bigtext', () =>
-    RichNotifications.display({
+  run('bigtext', async () => {
+    const result = await RichNotifications.display({
       title: 'Big text',
       body: 'This is a longer body that expands with the bigtext style on Android.',
       style: 'bigtext',
       channelId: 'demo',
-    }),
-  ),
+    });
+    lastNotificationId = result.id;
+    return result;
+  }),
 );
 
 document.getElementById('reply').addEventListener(
@@ -99,32 +122,64 @@ document.getElementById('reply').addEventListener(
       id: 'reply-cat',
       actions: [{ id: 'reply', title: 'Reply', input: { placeholder: 'Type a reply' } }],
     });
-    return RichNotifications.display({
+    const result = await RichNotifications.display({
       title: 'Message',
       body: 'Tap Reply to send text',
       categoryId: 'reply-cat',
       channelId: 'demo',
     });
+    lastNotificationId = result.id;
+    return result;
   }),
 );
 
 document.getElementById('schedule').addEventListener(
   'click',
-  run('schedule', () =>
-    RichNotifications.schedule({
+  run('schedule', async () => {
+    const result = await RichNotifications.schedule({
       notification: {
         title: 'Scheduled',
         body: 'Fired after 5 seconds',
         channelId: 'demo',
       },
       trigger: { type: 'interval', interval: 5 },
-    }),
-  ),
+    });
+    lastNotificationId = result.id;
+    return result;
+  }),
 );
 
 document.getElementById('badge').addEventListener(
   'click',
   run('badge', () => RichNotifications.setBadge({ count: 3 })),
+);
+
+document.getElementById('cancel-last').addEventListener(
+  'click',
+  run('cancel', async () => {
+    if (!lastNotificationId) {
+      throw new Error('No notification id yet. Display or schedule one first.');
+    }
+    const cancelled = lastNotificationId;
+    await RichNotifications.cancel({ id: cancelled });
+    lastNotificationId = null;
+    return { cancelled };
+  }),
+);
+
+document.getElementById('get-displayed').addEventListener(
+  'click',
+  run('getDisplayed', () => RichNotifications.getDisplayed()),
+);
+
+document.getElementById('get-pending').addEventListener(
+  'click',
+  run('getPending', () => RichNotifications.getPending()),
+);
+
+document.getElementById('plugin-version').addEventListener(
+  'click',
+  run('getPluginVersion', () => RichNotifications.getPluginVersion()),
 );
 
 document.getElementById('cancel-all').addEventListener(

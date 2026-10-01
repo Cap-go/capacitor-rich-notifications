@@ -16,7 +16,7 @@
 - **Plugin name:** `Rich Notifications`
 - **One-line value:** `Local notifications with channels, actions, progress, and schedules.`
 - **Maintainer:** `Capgo`
-- **Status:** `alpha`
+- **Status:** `beta`
 
 ## Pre-Release Checklist
 
@@ -34,7 +34,7 @@
 - [x] GitHub homepage is `https://capgo.app/docs/plugins/rich-notifications/`.
 - [ ] Create a GitHub repository custom social preview from `assets/github-social-template.svg`, export it to `assets/github-social-preview.png`, and upload it at GitHub **Settings** -> **General** -> **Social preview**.
 - [ ] Open docs/website PR and follow the complete website integration checklist in section **3) Open docs/website pull request**.
-- [ ] Run `bun run verify` before publishing.
+- [x] Run `bun run verify` before publishing (iOS, Android, and web verified in CI on this branch).
 
 ## Problem & Scope
 
