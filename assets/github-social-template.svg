@@ -62,7 +62,7 @@
       font-weight="850"
       letter-spacing="0"
     >
-      Add plugin features in one line
+      Local rich notifications
     </text>
     <text
       x="80"
@@ -73,7 +73,7 @@
       font-weight="850"
       letter-spacing="0"
     >
-      without native friction
+      for Capacitor apps
     </text>
   </g>
 
@@ -87,7 +87,7 @@
     font-weight="600"
     letter-spacing="0"
   >
-    Capacitor plugin template for fast, production-ready native integrations.
+    Channels, progress, actions, schedules, and tap events on iOS and Android.
   </text>
 
   <g filter="url(#shadow)">
@@ -152,7 +152,7 @@
       font-weight="760"
       letter-spacing="0"
     >
-      iOS
+      Channels
     </text>
   </g>
   <g transform="translate(270 490)">
@@ -168,7 +168,7 @@
       font-weight="760"
       letter-spacing="0"
     >
-      Android
+      Progress
     </text>
   </g>
   <g transform="translate(488 490)">
@@ -184,7 +184,7 @@
       font-weight="760"
       letter-spacing="0"
     >
-      Web
+      Actions
     </text>
   </g>
 </svg>

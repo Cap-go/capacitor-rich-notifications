@@ -62,6 +62,12 @@ bun add @capgo/capacitor-rich-notifications
 bunx cap sync
 ```
 
+## Documentation
+
+- [Plugin docs](https://capgo.app/docs/plugins/rich-notifications/) on capgo.app
+- [Tutorial](https://capgo.app/plugins/capacitor-rich-notifications/)
+- [Capgo](https://capgo.app/?ref=plugin_rich_notifications) for live updates and plugin support
+
 ## iOS setup
 
 No custom `Info.plist` keys are required for standard local notifications. Call `RichNotifications.requestPermission()` before showing notifications. Register action categories with `registerActions` and reference `categoryId` on each notification. Use `interruptionLevel` for time-sensitive delivery on iOS 15+. The `critical` level requires Apple's [Critical Alerts](https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel/critical) entitlement; without it, use `timeSensitive` or `active`.
@@ -185,15 +191,19 @@ See `example-app/` for a runnable demo (`bun install` and `bun run start` in tha
 
 Local rich notifications for Capacitor (no remote push).
 
+Use `@capgo/capacitor-notifications` for FCM and APNs remote push.
+
 ### checkPermission()
 
 ```typescript
 checkPermission() => Promise<PermissionResult>
 ```
 
-Check the current local notification permission status.
+Check the current local notification permission status without prompting.
 
 **Returns:** <code>Promise&lt;<a href="#permissionresult">PermissionResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -206,7 +216,11 @@ requestPermission() => Promise<PermissionResult>
 
 Request local notification permission from the user.
 
+On Android 13+, this maps to `POST_NOTIFICATIONS`. On iOS, uses `UNUserNotificationCenter`.
+
 **Returns:** <code>Promise&lt;<a href="#permissionresult">PermissionResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -217,11 +231,15 @@ Request local notification permission from the user.
 createChannel(channel: NotificationChannel) => Promise<void>
 ```
 
-Create an Android notification channel. Resolves as a no-op on iOS/web.
+Create an Android notification channel.
+
+Resolves as a no-op on iOS and web.
 
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
 | **`channel`** | <code><a href="#notificationchannel">NotificationChannel</a></code> |
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -232,11 +250,15 @@ Create an Android notification channel. Resolves as a no-op on iOS/web.
 createChannelGroup(group: NotificationChannelGroup) => Promise<void>
 ```
 
-Create an Android notification channel group. Resolves as a no-op on iOS/web.
+Create an Android notification channel group.
+
+Resolves as a no-op on iOS and web.
 
 | Param       | Type                                                                          |
 | ----------- | ----------------------------------------------------------------------------- |
 | **`group`** | <code><a href="#notificationchannelgroup">NotificationChannelGroup</a></code> |
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -247,11 +269,15 @@ Create an Android notification channel group. Resolves as a no-op on iOS/web.
 deleteChannel(options: NotificationIdOptions) => Promise<void>
 ```
 
-Delete an Android notification channel. Resolves as a no-op on iOS/web.
+Delete an Android notification channel by id.
+
+Resolves as a no-op on iOS and web.
 
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#notificationidoptions">NotificationIdOptions</a></code> |
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -264,11 +290,15 @@ display(notification: RichNotification) => Promise<NotificationIdResult>
 
 Display a local notification immediately.
 
+Returns the notification id (generated when omitted in the payload).
+
 | Param              | Type                                                          |
 | ------------------ | ------------------------------------------------------------- |
 | **`notification`** | <code><a href="#richnotification">RichNotification</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#notificationidresult">NotificationIdResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -281,6 +311,7 @@ schedule(options: ScheduleOptions) => Promise<NotificationIdResult>
 
 Schedule a local notification for later.
 
+On Android, exact timing may require `SCHEDULE_EXACT_ALARM` in the host app.
 On web, scheduling uses `setTimeout` and only works while the page stays open.
 
 | Param         | Type                                                        |
@@ -288,6 +319,8 @@ On web, scheduling uses `setTimeout` and only works while the page stays open.
 | **`options`** | <code><a href="#scheduleoptions">ScheduleOptions</a></code> |
 
 **Returns:** <code>Promise&lt;<a href="#notificationidresult">NotificationIdResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -304,6 +337,8 @@ Cancel a pending or displayed notification by id.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#notificationidoptions">NotificationIdOptions</a></code> |
 
+**Since:** 8.0.0
+
 --------------------
 
 
@@ -315,6 +350,8 @@ cancelAll() => Promise<void>
 
 Cancel every pending and displayed local notification managed by this plugin.
 
+**Since:** 8.0.0
+
 --------------------
 
 
@@ -324,9 +361,11 @@ Cancel every pending and displayed local notification managed by this plugin.
 getDisplayed() => Promise<NotificationListResult>
 ```
 
-List notifications currently shown in the notification shade / center.
+List notifications currently shown in the notification shade or Notification Center.
 
 **Returns:** <code>Promise&lt;<a href="#notificationlistresult">NotificationListResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -341,6 +380,8 @@ List notifications that are scheduled but not yet shown.
 
 **Returns:** <code>Promise&lt;<a href="#notificationlistresult">NotificationListResult</a>&gt;</code>
 
+**Since:** 8.0.0
+
 --------------------
 
 
@@ -352,7 +393,11 @@ getInitialNotification() => Promise<InitialNotificationResult>
 
 Return the notification that opened the app, if any.
 
+Call early on startup to handle cold-start taps.
+
 **Returns:** <code>Promise&lt;<a href="#initialnotificationresult">InitialNotificationResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -363,11 +408,13 @@ Return the notification that opened the app, if any.
 setBadge(options: BadgeOptions) => Promise<void>
 ```
 
-Set the app icon badge count.
+Set the app icon badge count (iOS).
 
 | Param         | Type                                                  |
 | ------------- | ----------------------------------------------------- |
 | **`options`** | <code><a href="#badgeoptions">BadgeOptions</a></code> |
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -378,11 +425,15 @@ Set the app icon badge count.
 registerActions(options: RegisterActionsOptions) => Promise<void>
 ```
 
-Register a reusable action category (iOS category / Android action set).
+Register a reusable action category (iOS `UNNotificationCategory`, Android action set).
+
+Reference the same id in `categoryId` when displaying notifications.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#registeractionsoptions">RegisterActionsOptions</a></code> |
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -393,9 +444,11 @@ Register a reusable action category (iOS category / Android action set).
 getPluginVersion() => Promise<PluginVersionResult>
 ```
 
-Returns the platform implementation version marker.
+Returns the platform implementation version marker (`native` or `web`).
 
 **Returns:** <code>Promise&lt;<a href="#pluginversionresult">PluginVersionResult</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -415,6 +468,8 @@ Listen for notification presses and action replies.
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
+**Since:** 8.0.0
+
 --------------------
 
 
@@ -424,7 +479,7 @@ Listen for notification presses and action replies.
 addListener(eventName: 'dismiss', listenerFunc: (event: DismissEvent) => void) => Promise<PluginListenerHandle>
 ```
 
-Listen for notification dismissals.
+Listen for notification dismissals (swipe away on Android, dismiss on iOS where supported).
 
 | Param              | Type                                                                      |
 | ------------------ | ------------------------------------------------------------------------- |
@@ -432,6 +487,8 @@ Listen for notification dismissals.
 | **`listenerFunc`** | <code>(event: <a href="#dismissevent">DismissEvent</a>) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 8.0.0
 
 --------------------
 
@@ -441,7 +498,7 @@ Listen for notification dismissals.
 
 #### PermissionResult
 
-Permission check/request result.
+Permission check or request result.
 
 | Prop         | Type                                                          | Description                |
 | ------------ | ------------------------------------------------------------- | -------------------------- |
@@ -450,40 +507,40 @@ Permission check/request result.
 
 #### NotificationChannel
 
-Android notification channel definition.
+Android notification channel definition (<a href="#notificationchannel">`NotificationChannel`</a>).
 
-| Prop              | Type                                                            | Description                                |
-| ----------------- | --------------------------------------------------------------- | ------------------------------------------ |
-| **`id`**          | <code>string</code>                                             | Unique channel id.                         |
-| **`name`**        | <code>string</code>                                             | User-visible channel name.                 |
-| **`description`** | <code>string</code>                                             | Optional channel description.              |
-| **`importance`**  | <code><a href="#channelimportance">ChannelImportance</a></code> | Channel importance. Defaults to `default`. |
-| **`sound`**       | <code>string</code>                                             | Optional sound resource name.              |
-| **`vibration`**   | <code>boolean</code>                                            | Whether the channel vibrates.              |
+| Prop              | Type                                                            | Description                                                      | Default                |
+| ----------------- | --------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------- |
+| **`id`**          | <code>string</code>                                             | Unique channel id referenced by `channelId` on notifications.    |                        |
+| **`name`**        | <code>string</code>                                             | User-visible channel name.                                       |                        |
+| **`description`** | <code>string</code>                                             | Optional channel description shown in system settings.           |                        |
+| **`importance`**  | <code><a href="#channelimportance">ChannelImportance</a></code> | Channel importance.                                              | <code>"default"</code> |
+| **`sound`**       | <code>string</code>                                             | Optional raw sound resource name in the Android app (`res/raw`). |                        |
+| **`vibration`**   | <code>boolean</code>                                            | Whether the channel vibrates.                                    | <code>false</code>     |
 
 
 #### NotificationChannelGroup
 
 Android notification channel group.
 
-| Prop       | Type                | Description              |
-| ---------- | ------------------- | ------------------------ |
-| **`id`**   | <code>string</code> | Unique group id.         |
-| **`name`** | <code>string</code> | User-visible group name. |
+| Prop       | Type                | Description                                               |
+| ---------- | ------------------- | --------------------------------------------------------- |
+| **`id`**   | <code>string</code> | Unique group id referenced by `groupId` on notifications. |
+| **`name`** | <code>string</code> | User-visible group name in system settings.               |
 
 
 #### NotificationIdOptions
 
-Identifier used by cancel helpers.
+Identifier used by `cancel` and `deleteChannel` (channel id for `deleteChannel`).
 
-| Prop     | Type                | Description                |
-| -------- | ------------------- | -------------------------- |
-| **`id`** | <code>string</code> | Notification id to cancel. |
+| Prop     | Type                | Description                                                 |
+| -------- | ------------------- | ----------------------------------------------------------- |
+| **`id`** | <code>string</code> | Notification id to cancel, or Android channel id to delete. |
 
 
 #### NotificationIdResult
 
-Result containing a notification id.
+Result containing a notification id from `display` or `schedule`.
 
 | Prop     | Type                | Description                                    |
 | -------- | ------------------- | ---------------------------------------------- |
@@ -494,60 +551,60 @@ Result containing a notification id.
 
 Payload used to display or schedule a local notification.
 
-| Prop                    | Type                                                                  | Description                                                           |
-| ----------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **`id`**                | <code>string</code>                                                   | Notification id. Generated when omitted.                              |
-| **`title`**             | <code>string</code>                                                   | Notification title.                                                   |
-| **`body`**              | <code>string</code>                                                   | Notification body text.                                               |
-| **`image`**             | <code>string</code>                                                   | Image as an https URL or data URL.                                    |
-| **`badge`**             | <code>number</code>                                                   | App icon badge count to apply when the notification is shown (iOS).   |
-| **`ongoing`**           | <code>boolean</code>                                                  | Keep the notification until explicitly cancelled (Android).           |
-| **`progress`**          | <code><a href="#notificationprogress">NotificationProgress</a></code> | Progress indicator for download/upload style notifications (Android). |
-| **`fullScreen`**        | <code>boolean</code>                                                  | Show as a full-screen intent suitable for calls/alarms (Android).     |
-| **`foregroundService`** | <code>boolean</code>                                                  | Promote the notification to a foreground service (Android, opt-in).   |
-| **`style`**             | <code><a href="#notificationstyle">NotificationStyle</a></code>       | Expanded style layout.                                                |
-| **`lines`**             | <code>string[]</code>                                                 | Lines used when `style` is `inbox`.                                   |
-| **`channelId`**         | <code>string</code>                                                   | Android channel id.                                                   |
-| **`groupId`**           | <code>string</code>                                                   | Android notification group id.                                        |
-| **`categoryId`**        | <code>string</code>                                                   | iOS category id / Android registered action set id.                   |
-| **`interruptionLevel`** | <code><a href="#interruptionlevel">InterruptionLevel</a></code>       | iOS interruption level.                                               |
-| **`actions`**           | <code>NotificationAction[]</code>                                     | Actions attached only to this notification.                           |
+| Prop                    | Type                                                                  | Description                                                                                                                   | Default               |
+| ----------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| **`id`**                | <code>string</code>                                                   | Notification id. A UUID string is generated when omitted.                                                                     |                       |
+| **`title`**             | <code>string</code>                                                   | Notification title (required).                                                                                                |                       |
+| **`body`**              | <code>string</code>                                                   | Notification body text.                                                                                                       |                       |
+| **`image`**             | <code>string</code>                                                   | Large image as an `https` URL or `data:` URL (Android big picture / iOS attachment).                                          |                       |
+| **`badge`**             | <code>number</code>                                                   | App icon badge count to apply when the notification is shown (iOS).                                                           |                       |
+| **`ongoing`**           | <code>boolean</code>                                                  | Keep the notification until explicitly cancelled (Android ongoing notification).                                              | <code>false</code>    |
+| **`progress`**          | <code><a href="#notificationprogress">NotificationProgress</a></code> | Progress indicator for download or upload style notifications (Android).                                                      |                       |
+| **`fullScreen`**        | <code>boolean</code>                                                  | Show as a full-screen intent suitable for calls or alarms (Android). Requires `USE_FULL_SCREEN_INTENT` in the host app.       | <code>false</code>    |
+| **`foregroundService`** | <code>boolean</code>                                                  | Promote the notification to a foreground service (Android). Requires opt-in manifest permissions and `RichForegroundService`. | <code>false</code>    |
+| **`style`**             | <code><a href="#notificationstyle">NotificationStyle</a></code>       | Expanded style layout (Android). Use `lines` when `style` is `inbox`.                                                         |                       |
+| **`lines`**             | <code>string[]</code>                                                 | Inbox lines when `style` is `inbox`.                                                                                          |                       |
+| **`channelId`**         | <code>string</code>                                                   | Android channel id (create with `createChannel` before posting).                                                              |                       |
+| **`groupId`**           | <code>string</code>                                                   | Android notification group id (optional grouping in the shade).                                                               |                       |
+| **`categoryId`**        | <code>string</code>                                                   | iOS category id or Android registered action set id from `registerActions`.                                                   |                       |
+| **`interruptionLevel`** | <code><a href="#interruptionlevel">InterruptionLevel</a></code>       | iOS interruption level (iOS 15+).                                                                                             | <code>"active"</code> |
+| **`actions`**           | <code>NotificationAction[]</code>                                     | Actions attached only to this notification (in addition to `categoryId` actions).                                             |                       |
 
 
 #### NotificationProgress
 
 Progress bar shown on Android notifications.
 
-| Prop                | Type                 | Description                                           |
-| ------------------- | -------------------- | ----------------------------------------------------- |
-| **`current`**       | <code>number</code>  | Current progress value.                               |
-| **`max`**           | <code>number</code>  | Maximum progress value.                               |
-| **`indeterminate`** | <code>boolean</code> | When true, shows an indeterminate progress indicator. |
+| Prop                | Type                 | Description                                                         | Default            |
+| ------------------- | -------------------- | ------------------------------------------------------------------- | ------------------ |
+| **`current`**       | <code>number</code>  | Current progress value (0 to `max` unless `indeterminate` is true). |                    |
+| **`max`**           | <code>number</code>  | Maximum progress value.                                             | <code>100</code>   |
+| **`indeterminate`** | <code>boolean</code> | When true, shows an indeterminate progress indicator.               | <code>false</code> |
 
 
 #### NotificationAction
 
-A single notification action button.
+A single notification action button (iOS `UNNotificationAction`, Android action).
 
-| Prop        | Type                                                                         | Description                                                                        |
-| ----------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **`id`**    | <code>string</code>                                                          | Stable action identifier delivered in press events.                                |
-| **`title`** | <code>string</code>                                                          | Visible button title.                                                              |
-| **`input`** | <code>boolean \| <a href="#actioninputoptions">ActionInputOptions</a></code> | When true, shows a plain reply field. Pass an object to customize the placeholder. |
+| Prop        | Type                                                                         | Description                                                                          |
+| ----------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **`id`**    | <code>string</code>                                                          | Stable action identifier delivered in `press` events as `actionId`.                  |
+| **`title`** | <code>string</code>                                                          | Visible button title.                                                                |
+| **`input`** | <code>boolean \| <a href="#actioninputoptions">ActionInputOptions</a></code> | When `true`, shows a plain reply field. Pass an object to customize the placeholder. |
 
 
 #### ActionInputOptions
 
 Inline reply configuration for an action button.
 
-| Prop              | Type                | Description                           |
-| ----------------- | ------------------- | ------------------------------------- |
-| **`placeholder`** | <code>string</code> | Placeholder shown in the reply field. |
+| Prop              | Type                | Description                           | Default                                  |
+| ----------------- | ------------------- | ------------------------------------- | ---------------------------------------- |
+| **`placeholder`** | <code>string</code> | Placeholder shown in the reply field. | <code>"Reply" on iOS when omitted</code> |
 
 
 #### ScheduleOptions
 
-Arguments for scheduling a notification.
+Arguments for `schedule`.
 
 | Prop               | Type                                                          | Description                                          |
 | ------------------ | ------------------------------------------------------------- | ---------------------------------------------------- |
@@ -557,23 +614,23 @@ Arguments for scheduling a notification.
 
 #### TimestampTrigger
 
-Fire once at a unix timestamp in milliseconds.
+Schedule trigger that fires once at a Unix timestamp in milliseconds.
 
-| Prop            | Type                     | Description                     |
-| --------------- | ------------------------ | ------------------------------- |
-| **`type`**      | <code>'timestamp'</code> | Trigger kind.                   |
-| **`timestamp`** | <code>number</code>      | Unix timestamp in milliseconds. |
+| Prop            | Type                     | Description                                          |
+| --------------- | ------------------------ | ---------------------------------------------------- |
+| **`type`**      | <code>'timestamp'</code> | Trigger kind discriminator.                          |
+| **`timestamp`** | <code>number</code>      | Unix timestamp in milliseconds (`Date.now()` scale). |
 
 
 #### IntervalTrigger
 
-Fire after an interval measured in seconds.
+Schedule trigger that fires after a delay in seconds.
 
-| Prop           | Type                    | Description                                     |
-| -------------- | ----------------------- | ----------------------------------------------- |
-| **`type`**     | <code>'interval'</code> | Trigger kind.                                   |
-| **`interval`** | <code>number</code>     | Delay in seconds before the first fire.         |
-| **`repeats`**  | <code>boolean</code>    | When true, keep repeating at the same interval. |
+| Prop           | Type                    | Description                                                       | Default            |
+| -------------- | ----------------------- | ----------------------------------------------------------------- | ------------------ |
+| **`type`**     | <code>'interval'</code> | Trigger kind discriminator.                                       |                    |
+| **`interval`** | <code>number</code>     | Delay in seconds before the first fire (minimum 1 second on iOS). |                    |
+| **`repeats`**  | <code>boolean</code>    | When true, keep repeating at the same interval.                   | <code>false</code> |
 
 
 #### NotificationListResult
@@ -589,58 +646,58 @@ List of displayed or pending notifications.
 
 Summary of a displayed or pending notification.
 
-| Prop        | Type                | Description                    |
-| ----------- | ------------------- | ------------------------------ |
-| **`id`**    | <code>string</code> | Notification id.               |
-| **`title`** | <code>string</code> | Optional title when available. |
+| Prop        | Type                | Description                         |
+| ----------- | ------------------- | ----------------------------------- |
+| **`id`**    | <code>string</code> | Notification id.                    |
+| **`title`** | <code>string</code> | Title when the platform exposes it. |
 
 
 #### InitialNotificationResult
 
-Result of getInitialNotification.
+Result of `getInitialNotification`.
 
-| Prop               | Type                                                                        | Description                                                        |
-| ------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| **`notification`** | <code><a href="#initialnotification">InitialNotification</a> \| null</code> | Launch notification, or null when the app was not opened from one. |
+| Prop               | Type                                                                        | Description                                                          |
+| ------------------ | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **`notification`** | <code><a href="#initialnotification">InitialNotification</a> \| null</code> | Launch notification, or `null` when the app was not opened from one. |
 
 
 #### InitialNotification
 
 Notification that opened the app, when available.
 
-| Prop           | Type                | Description                               |
-| -------------- | ------------------- | ----------------------------------------- |
-| **`id`**       | <code>string</code> | Notification id that opened the app.      |
-| **`actionId`** | <code>string</code> | Action id when an action button was used. |
-| **`input`**    | <code>string</code> | Inline reply text when present.           |
+| Prop           | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| **`id`**       | <code>string</code> | Notification id that opened the app.                           |
+| **`actionId`** | <code>string</code> | Action id when an action button was used.                      |
+| **`input`**    | <code>string</code> | Inline reply text when the user submitted a text input action. |
 
 
 #### BadgeOptions
 
-Badge update payload.
+Badge update payload for `setBadge`.
 
-| Prop        | Type                | Description                             |
-| ----------- | ------------------- | --------------------------------------- |
-| **`count`** | <code>number</code> | Badge count to display on the app icon. |
+| Prop        | Type                | Description                                                     |
+| ----------- | ------------------- | --------------------------------------------------------------- |
+| **`count`** | <code>number</code> | Badge count to display on the app icon (iOS). Use `0` to clear. |
 
 
 #### RegisterActionsOptions
 
-Action category registration payload.
+Action category registration payload for `registerActions`.
 
-| Prop          | Type                              | Description                                          |
-| ------------- | --------------------------------- | ---------------------------------------------------- |
-| **`id`**      | <code>string</code>               | Category / action-set id referenced by `categoryId`. |
-| **`actions`** | <code>NotificationAction[]</code> | Actions belonging to this category.                  |
+| Prop          | Type                              | Description                                                            |
+| ------------- | --------------------------------- | ---------------------------------------------------------------------- |
+| **`id`**      | <code>string</code>               | Category or action-set id referenced by `categoryId` on notifications. |
+| **`actions`** | <code>NotificationAction[]</code> | Actions belonging to this category.                                    |
 
 
 #### PluginVersionResult
 
-Plugin version payload.
+Plugin version payload from `getPluginVersion`.
 
-| Prop          | Type                | Description                                                 |
-| ------------- | ------------------- | ----------------------------------------------------------- |
-| **`version`** | <code>string</code> | Version identifier returned by the platform implementation. |
+| Prop          | Type                | Description                                                                    |
+| ------------- | ------------------- | ------------------------------------------------------------------------------ |
+| **`version`** | <code>string</code> | Version marker from the native implementation (for example `native` or `web`). |
 
 
 #### PluginListenerHandle
@@ -652,18 +709,18 @@ Plugin version payload.
 
 #### PressEvent
 
-Fired when the user taps a notification or one of its actions.
+Event payload for the `press` listener (notification tap or action).
 
-| Prop           | Type                | Description                                        |
-| -------------- | ------------------- | -------------------------------------------------- |
-| **`id`**       | <code>string</code> | Notification id that was pressed.                  |
-| **`actionId`** | <code>string</code> | Action id when an action button or reply was used. |
-| **`input`**    | <code>string</code> | Inline reply text when present.                    |
+| Prop           | Type                | Description                                               |
+| -------------- | ------------------- | --------------------------------------------------------- |
+| **`id`**       | <code>string</code> | Notification id that was pressed.                         |
+| **`actionId`** | <code>string</code> | Action id when an action button or inline reply was used. |
+| **`input`**    | <code>string</code> | Inline reply text when present.                           |
 
 
 #### DismissEvent
 
-Fired when the user dismisses a notification.
+Event payload for the `dismiss` listener.
 
 | Prop     | Type                | Description                         |
 | -------- | ------------------- | ----------------------------------- |
@@ -675,28 +732,30 @@ Fired when the user dismisses a notification.
 
 #### PermissionStatus
 
-Permission status returned by check/request helpers.
+Permission status returned by `checkPermission` and `requestPermission`.
 
 <code>'granted' | 'denied' | 'blocked' | 'unavailable'</code>
 
 
 #### ChannelImportance
 
-Android channel importance levels.
+Android notification channel importance levels (maps to `NotificationManager` importance).
 
 <code>'none' | 'min' | 'low' | 'default' | 'high' | 'max'</code>
 
 
 #### NotificationStyle
 
-Expanded notification layout styles.
+Expanded notification layout styles (Android `NotificationCompat` styles).
 
 <code>'bigtext' | 'picture' | 'inbox'</code>
 
 
 #### InterruptionLevel
 
-iOS interruption level for the notification.
+iOS interruption level for the notification (`UNNotificationInterruptionLevel`).
+
+`critical` requires Apple's Critical Alerts entitlement.
 
 <code>'passive' | 'active' | 'timeSensitive' | 'critical'</code>
 
