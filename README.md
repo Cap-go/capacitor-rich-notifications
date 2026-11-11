@@ -16,6 +16,17 @@
 
 Show polished **local** notifications from your Capacitor app: Android channels and groups, progress and ongoing alerts, big-text/picture/inbox layouts, action buttons with inline reply, exact scheduling, full-screen intents, and optional foreground-service promotion. It does not register for remote push (use [@capgo/capacitor-notifications](https://github.com/Cap-go/capacitor-notifications) for FCM/APNs). Compared with the stock local notification APIs, you get one TypeScript surface for rich layouts, scheduling, tap/dismiss events, launch detection, and badges on iOS and Android (with a browser Notification fallback on web).
 
+## Built and maintained with AI
+
+We build, improve and fix our plugins with heavy use of AI. Capgo the product is mostly AI-optional for you; the AI is our own engineering system, and the speed it gives us is part of what you pay for.
+
+- Most plugin issues get a fix pull request the same day, often within a couple of hours, and are usually resolved in one to two days.
+- Every pull request is reviewed automatically by our AI review system, usually within minutes.
+- Our AI pre-checks tests, code review, conventions and security, then a human validates and merges.
+- In the last 90 days, 95% of plugin issues were resolved.
+
+[Learn more about how we build with AI](https://capgo.app/docs/plugins/ai-engineering/)
+
 ## Features
 
 - **Permissions** - `checkPermission` / `requestPermission` for notification access (including Android 13+ `POST_NOTIFICATIONS`).
